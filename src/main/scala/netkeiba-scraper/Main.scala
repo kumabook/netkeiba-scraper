@@ -38,7 +38,7 @@ object RaceScraper {
       io.Source.fromFile("race_url.txt").getLines.toList.
     map{ s => val re(x) = re.findFirstIn(s).get; x }
  
-    val urls = nums.map(s => "http://db.netkeiba.com/race/" + s)
+    val urls = nums.map(s => "https://db.netkeiba.com/race/" + s)
  
     val folder = new File("html")
     if (!folder.exists()) folder.mkdir()
@@ -275,7 +275,7 @@ object RaceListScraper {
   
   def extractRaceList(baseUrl: String) = {
     "/race/list/\\d+/".r.findAllIn(io.Source.fromURL(baseUrl, "EUC-JP").mkString).toList.
-    map("http://db.netkeiba.com" + _).
+    map("https://db.netkeiba.com" + _).
     distinct
   }
  
@@ -283,18 +283,18 @@ object RaceListScraper {
     "/\\?pid=[^\"]+".r.findFirstIn(
       io.Source.fromURL(baseList, "EUC-JP").
       getLines.filter(_.contains("race_calendar_rev_02.gif")).toList.head).
-    map("http://db.netkeiba.com" + _).
+    map("https://db.netkeiba.com" + _).
     get
   }
  
   def extractRace(listUrl: String) = {
     "/race/\\d+/".r.findAllIn(io.Source.fromURL(listUrl, "EUC-JP").mkString).toList.
-    map("http://db.netkeiba.com" + _).
+    map("https://db.netkeiba.com" + _).
     distinct
   }
  
   def scrape(period: Int) = {
-    var baseUrl = "http://db.netkeiba.com/?pid=race_top"
+    var baseUrl = "https://db.netkeiba.com/?pid=race_top"
     var i = 0
  
     while (i < period) {
